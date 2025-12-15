@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CinnamonCream | Minecraft Survival Server</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a0f0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(26, 15, 10, 0.7), rgba(26, 15, 10, 0.8)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><rect fill="%231a0f0a" width="1200" height="800"/><g fill="%23301f18"><rect x="0" y="0" width="100" height="100"/><rect x="200" y="100" width="100" height="100"/><rect x="100" y="200" width="100" height="100"/><rect x="300" y="300" width="100" height="100"/><rect x="400" y="100" width="100" height="100"/><rect x="600" y="200" width="100" height="100"/><rect x="800" y="400" width="100" height="100"/><rect x="900" y="100" width="100" height="100"/></g></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(210, 105, 30, 0.15), transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .server-name {
+            font-size: 4.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #D2691E, #F4A460, #FFE4B5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 40px rgba(210, 105, 30, 0.5);
+            filter: drop-shadow(0 0 20px rgba(244, 164, 96, 0.4));
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #d4a574;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .cta-button {
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, #D2691E, #F4A460);
+            border: none;
+            border-radius: 50px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(210, 105, 30, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(210, 105, 30, 0.6);
+            background: linear-gradient(135deg, #C1661F, #E59866);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #D2691E, #F4A460, #FFE4B5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* About Section */
+        #about .feature-card {
+            text-align: center;
+        }
+
+        #about .feature-card img {
+            display: block;
+            margin: 0 auto 2rem auto;
+            border-radius: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        #about h4 {
+            color: #F4A460;
+            margin-top: 1rem;
+        }
+
+        /* Features Grid */
+        .features-intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #c9a77c;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(210, 105, 30, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(210, 105, 30, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 164, 96, 0.12), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(210, 105, 30, 0.6);
+            box-shadow: 0 10px 40px rgba(210, 105, 30, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #F4A460;
+        }
+
+        .feature-desc {
+            color: #c9a77c;
+            line-height: 1.6;
+        }
+
+        /* Server Info */
+        .server-info {
+            background: rgba(210, 105, 30, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(210, 105, 30, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .info-item {
+            padding: 1.5rem;
+            background: rgba(26, 15, 10, 0.5);
+            border-radius: 15px;
+            border: 1px solid rgba(210, 105, 30, 0.15);
+        }
+
+        .info-label {
+            color: #F4A460;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .copy-btn {
+            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(210, 105, 30, 0.2);
+            border: 1px solid #D2691E;
+            border-radius: 10px;
+            color: #F4A460;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: rgba(210, 105, 30, 0.35);
+            transform: scale(1.05);
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #301f18, #1a0f0a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(210, 105, 30, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+            border-color: rgba(210, 105, 30, 0.6);
+        }
+
+        .gallery-placeholder {
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(26, 15, 10, 0.95));
+            padding: 1rem;
+            text-align: center;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-caption {
+            transform: translateY(0);
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            background: rgba(210, 105, 30, 0.08);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(210, 105, 30, 0.25);
+        }
+
+        .philosophy p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #c9a77c;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Support Section */
+        .support-section {
+            background: rgba(210, 105, 30, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            border: 1px solid rgba(210, 105, 30, 0.2);
+        }
+
+        .qr-container {
+            margin: 2rem auto;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .support-label {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #F4A460;
+        }
+
+        .wallet-info {
+            font-size: 1.2rem;
+            margin: 1rem 0;
+            color: #c9a77c;
+        }
+
+        .disclaimer {
+            font-size: 0.9rem;
+            color: #9b8668;
+            font-style: italic;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #0d0805;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(210, 105, 30, 0.2);
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #F4A460;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #FFE4B5;
+            text-shadow: 0 0 10px rgba(244, 164, 96, 0.5);
+        }
+
+        .copyright {
+            color: #6b5846;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .server-name {
+                font-size: 2.5rem;
+            }
+
+            .tagline {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #about .feature-card img {
+                max-width: 100%;
+                height: auto;
+            }
+        }
+
+        .status-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #D2691E;
+            margin-right: 0.5rem;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        .status-indicator.offline {
+            background: #8B4513;
+            animation: none;
+        }
+
+        .status-indicator.checking {
+            background: #DAA520;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="server-name">CinnamonCream</h1>
+            <p class="tagline">A self-hosted survival server, maintained by a Malaysian Nerd</p>
+            <button class="cta-button" onclick="scrollToSection('server-info')">Join the Server</button>
+        </div>
+    </div>
+
+    <section id="about">
+        <div class="feature-card">
+            <img src="senko-img.jpg" width="550" height="450" alt="Senko">
+            <h2>Who Am I?</h2>
+            <p class="feature-desc">
+                Heyo! I'm Wantan, I like building things and this is my newest project—CinnamonCream! A Minecraft server with the goal of making my own spinoff from the Vanilla gameplay. Hence the name; Cinnamon.
+            </p>
+            <h4>If you're looking for some simple blocky fun but with a fresh coat of paint. This is the place for you!</h4>
+        </div>
+    </section>
+
+    <!-- About / Features Section -->
+    <section id="features">
+        <h2>🛠️ Features & Mayhem</h2>
+        <p class="features-intro">
+            This isn't your average vanilla Minecraft server. We've carefully curated a collection of features that enhance the survival experience without straying too far from the core gameplay. Prepare for surprises, challenges, and plenty of laughs.
+        </p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🧟</div>
+                <div class="feature-title">Horde Nights</div>
+                <p class="feature-desc">Every 30–45 days, massive waves of mobs descend upon the world. Build defenses, stock up on supplies, and survive the onslaught!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🍀</div>
+                <div class="feature-title">Lucky Blocks</div>
+                <p class="feature-desc">Randomized drops that bring chaos and fun. Will you get diamonds or disaster? Only one way to find out!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🥘</div>
+                <div class="feature-title">New Food Recipes</div>
+                <p class="feature-desc">Tasty Supplies datapack adds delicious vanilla-friendly foods. Expand your culinary horizons!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">✨</div>
+                <div class="feature-title">New Enchantments</div>
+                <p class="feature-desc">Enchant Encore gives you new ways to empower your gear. Discover powerful combinations!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌍</div>
+                <div class="feature-title">Fully Explorable Worlds</div>
+                <p class="feature-desc">Overworld, Nether, and End are all open for exploration. Venture far and build your empire!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🛠️</div>
+                <div class="feature-title">Veinminer</div>
+                <p class="feature-desc">Mine smarter, not harder. Break entire ore veins with one swing. Your back will thank you!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🐍</div>
+                <div class="feature-title">Ground Mob Spawning</div>
+                <p class="feature-desc">Mobs can emerge from the ground beneath your feet. Stay alert and watch your step!</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <div class="feature-title">Java & Bedrock Compatible</div>
+                <p class="feature-desc">Play from any device! Both Java and Bedrock editions are supported, so everyone can join the fun.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎁</div>
+                <div class="feature-title">And More Surprises</div>
+                <p class="feature-desc">Always adding little tweaks and surprises to keep the adventure fresh. You never know what's next!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Server Info Section -->
+    <section id="server-info">
+        <h2>🖥️ Server Information</h2>
+        
+        <div class="server-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Java Edition IP</div>
+                    <div class="info-value" id="serverIp">town-rw.gl.joinmc.link:25565</div>
+                    <button class="copy-btn" onclick="copyIP('java')">Copy IP</button>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Bedrock Edition IP</div>
+                    <div class="info-value" id="bedrockIp">usa-generations.gl.at.ply.gg</div>
+                    <div class="info-value" style="font-size: 1rem; margin-top: 0.5rem;">Port: 2532</div>
+                    <button class="copy-btn" onclick="copyIP('bedrock')">Copy IP</button>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Version</div>
+                    <div class="info-value">1.20.x - 1.21.x</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Status</div>
+                    <div class="info-value" id="serverStatus">
+                        <span class="status-indicator" id="statusDot"></span>Online
+                    </div>
+                    <div id="playerCount" style="font-size: 0.9rem; color: #c9a77c; margin-top: 0.5rem;">Connect to see players!</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Community</div>
+                    <div class="info-value">
+                        <a href="#" style="color: #F4A460; text-decoration: none;">Join Discord</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2>📸 Server Highlights</h2>
+        
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🏰</div>
+                <div class="gallery-caption">Spawn Area</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🌅</div>
+                <div class="gallery-caption">Epic Build</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">⚔️</div>
+                <div class="gallery-caption">Horde Night Survival</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🏔️</div>
+                <div class="gallery-caption">Mountain Base</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🔥</div>
+                <div class="gallery-caption">Nether Portal Hub</div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="gallery-placeholder">🌙</div>
+                <div class="gallery-caption">Community Event</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy">
+        <h2>💌 Why This Server Exists</h2>
+        
+        <div class="philosophy">
+            <p>
+                CinnamonCream started as a cozy passion project—a warm, welcoming digital space where friends could gather, build, and survive together. It's maintained with love, caffeine, and the occasional debugging session at 3 AM. The goal is simple: create a fun, engaging survival experience that stays true to Minecraft's core while adding just enough spice to keep things interesting. No pay-to-win, no drama, just good vibes and blocky adventures. Welcome to our sweet little corner of the Minecraft universe!
+            </p>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support">
+        <h2>☕ Support the Server</h2>
+        
+        <div class="support-section">
+            <div class="support-label">Help Keep the Lights On (Optional)</div>
+            <p style="color: #c9a77c; margin: 1rem 0;">Running servers costs money, but your enjoyment matters more. If you'd like to chip in for hosting costs, we appreciate it!</p>
+            
+            <div class="qr-container">
+                <img src="server-donations.jpg" alt="Donation QR Code">
+            </div>
+            
+            <div class="wallet-info">TNG eWallet: @wantansirap</div>
+            <div class="disclaimer">Donations help keep this server going!</div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">Discord</a>
+            <a href="#">Twitter</a>
+            <a href="#">Contact</a>
+            <a href="#">Rules</a>
+        </div>
+        <div class="copyright">
+            🌙Server Made with ☕ and cinnamon | © 2025 CinnamonCream Server | Minecraft is © Mojang Studios
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const JAVA_IP = 'town-rw.gl.joinmc.link';
+        const JAVA_PORT = 25565;
+        const BEDROCK_IP = 'usa-generations.gl.at.ply.gg';
+        const BEDROCK_PORT = 2532;
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyIP(type) {
+            let ip;
+            if (type === 'java') {
+                ip = document.getElementById('serverIp').textContent;
+            } else {
+                ip = `${document.getElementById('bedrockIp').textContent}:${BEDROCK_PORT}`;
+            }
+            
+            navigator.clipboard.writeText(ip).then(() => {
+                const btn = event.target;
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = 'rgba(210, 105, 30, 0.4)';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = 'rgba(210, 105, 30, 0.2)';
+                }, 2000);
+            });
+        }
+
+        // Display server status (showing as online by default)
+        function displayServerStatus() {
+            const statusElement = document.getElementById('serverStatus');
+            const playerCountElement = document.getElementById('playerCount');
+            
+            statusElement.innerHTML = '<span class="status-indicator" id="statusDot"></span>Online';
+            playerCountElement.textContent = 'Connect to see players!';
+        }
+
+        // Display status on page load
+        displayServerStatus();
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.feature-card, .gallery-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
