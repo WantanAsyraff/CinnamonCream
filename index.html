@@ -709,17 +709,42 @@
             });
         }
 
-        // Display server status (showing as online by default)
-        function displayServerStatus() {
+        function setStatus(state, text, playerText) {
             const statusElement = document.getElementById('serverStatus');
             const playerCountElement = document.getElementById('playerCount');
-            
-            statusElement.innerHTML = '<span class="status-indicator" id="statusDot"></span>Online';
-            playerCountElement.textContent = 'Connect to see players!';
+
+            const className = state === 'online' ? '' : ` ${state}`;
+            statusElement.innerHTML = `<span class="status-indicator${className}" id="statusDot"></span>${text}`;
+            playerCountElement.textContent = playerText;
         }
 
-        // Display status on page load
-        displayServerStatus();
+        async function checkServerStatus() {
+            setStatus('checking', 'Checking...', 'Querying live server status...');
+
+            try {
+                const endpoint = `https://api.mcstatus.io/v2/status/java/${JAVA_IP}:${JAVA_PORT}`;
+                const response = await fetch(endpoint, { cache: 'no-store' });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                const data = await response.json();
+                if (data.online) {
+                    const online = data.players?.online ?? 0;
+                    const max = data.players?.max ?? '?';
+                    setStatus('online', 'Online', `${online}/${max} players online`);
+                } else {
+                    setStatus('offline', 'Offline', 'Server is currently offline');
+                }
+            } catch (error) {
+                setStatus('offline', 'Status Unavailable', 'Could not reach status API');
+            }
+        }
+
+        // Check once on load, then refresh every 60 seconds
+        checkServerStatus();
+        setInterval(checkServerStatus, 60000);
 
         // Intersection Observer for fade-in animations
         const observerOptions = {
